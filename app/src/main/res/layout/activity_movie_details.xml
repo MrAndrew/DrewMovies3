@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/darker_gray"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/movie_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_baseline_local_movies_24_black"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:transitionName="selectedMoviePoster"
+                />
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/movie_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Godzilla vs. King Kong"
+                android:textSize="@dimen/movie_details_title_font_size"
+                android:textColor="@color/off_white_text_color"
+                />
+
+            <TextView
+                android:id="@+id/release_date_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/title_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="October 31st, 2021"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/off_white_text_color"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/see_reviews_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/release_date_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:padding="@dimen/default_margin"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/off_white_text_color"
+                android:background="@drawable/action_button_background"
+                android:text="See Reviews"
+                />
+
+            <TextView
+                android:id="@+id/genres_label_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/see_reviews_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Genres"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/off_white_text_color"
+                />
+
+            <LinearLayout
+                android:id="@+id/genres_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/genres_label_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="Drama, Comedy, Sci-fi"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/off_white_text_color"
+                android:orientation="horizontal"
+                />
+
+            <TextView
+                android:id="@+id/overview_label_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/genres_ll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Storyline"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:textColor="@color/off_white_text_color"
+                />
+
+            <TextView
+                android:id="@+id/overview_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                android:layout_marginBottom="@dimen/triple_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/overview_label_tv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="A story about love and ..."
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/off_white_text_color"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout >

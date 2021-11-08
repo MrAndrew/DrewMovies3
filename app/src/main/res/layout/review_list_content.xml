@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/dark_gray"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/review_top_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/default_margin"
+        >
+        <ImageView
+            android:id="@+id/reviewer_profile_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_width="25dp"
+            tools:layout_height="25dp"
+            android:minHeight="25dp"
+            android:minWidth="25dp"
+            android:maxHeight="75dp"
+            android:maxWidth="75dp"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:src="@drawable/ic_baseline_downloading_24"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/reviewer_username_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            app:layout_constraintStart_toEndOf="@id/reviewer_profile_iv"
+            app:layout_constraintTop_toTopOf="@id/reviewer_profile_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Mr. Reviewer"
+            android:textSize="@dimen/review_list_username_font_size"
+            android:textColor="@color/off_white_text_color"
+            />
+        <TextView
+            android:id="@+id/review_rating_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/reviewer_username_tv"
+            app:layout_constraintTop_toBottomOf="@id/reviewer_username_tv"
+            tools:text="5.6 Stars"
+            android:textSize="@dimen/review_list_rating_font_size"
+            android:textColor="@color/off_white_text_color"
+            />
+        <ImageView
+            android:id="@+id/stars_iv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="@dimen/quarter_default_margin"
+            android:src="@drawable/ic_baseline_star_rate_24_yellow"
+            app:layout_constraintTop_toTopOf="@+id/review_rating_tv"
+            app:layout_constraintBottom_toBottomOf="@+id/review_rating_tv"
+            app:layout_constraintStart_toEndOf="@+id/review_rating_tv"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/reviewer_content_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/review_top_cl"
+        app:layout_constraintStart_toStartOf="@id/review_top_cl"
+        app:layout_constraintEnd_toEndOf="@id/review_top_cl"
+        tools:text="When audiences last saw Eddie Brock (Tom Hardy); the journalist and his parasitic symbiote Venom; had just saved the day and cemented their unusual bond with one another."
+        android:textSize="@dimen/review_list_content_font_size"
+        android:textColor="@color/off_white_text_color"
+        />
+
+    <TextView
+        android:id="@+id/review_date_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="November 5th, 2021"
+        android:layout_marginTop="@dimen/default_margin"
+        app:layout_constraintTop_toBottomOf="@id/reviewer_content_tv"
+        app:layout_constraintEnd_toEndOf="@id/reviewer_content_tv"
+        app:layout_constraintStart_toStartOf="@id/reviewer_content_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/review_list_date_font_size"
+        android:textColor="@color/off_white_text_color"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
