@@ -51,6 +51,7 @@ object JsonParsers {
     private const val RUNTIME_KEY = "runtime"
     private const val USER_RATINGS_NUMOF_KEY = "vote_count"
     private const val USER_RATINGS_AVERAGE_KEY = "vote_average"
+    private const val REVENUE_KEY = "revenue"
 
     fun parseMoviesJson(jsonString: String?): ArrayList<Movie> {
 
@@ -198,6 +199,8 @@ object JsonParsers {
             movieDetails.runtime = (resultsObj.getInt(RUNTIME_KEY))
             movieDetails.numOfVotes = (resultsObj.getInt(USER_RATINGS_NUMOF_KEY))
             movieDetails.voteAvg = (resultsObj.getInt(USER_RATINGS_AVERAGE_KEY))
+
+            movieDetails.revenue = (resultsObj.getInt(REVENUE_KEY))
 
         } catch (e: JSONException) {
             e.printStackTrace()

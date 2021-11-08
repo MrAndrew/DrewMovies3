@@ -25,6 +25,7 @@ import android.app.Activity
 import androidx.core.content.ContextCompat.startActivity
 import com.example.drewmovies.R
 import android.os.Build
+import androidx.recyclerview.widget.LinearLayoutManager
 import java.text.SimpleDateFormat
 
 
@@ -92,24 +93,60 @@ class MoviesFragment : Fragment() {
             Log.d("DEBUG", "initializeUI()  moviesViewModel.movies.observe() binding.moviesList.adapter: ${binding.moviesList.adapter}")
             Log.d("DEBUG", "initializeUI()  moviesViewModel.movies.observe() binding.moviesList.adapter.itemCount: ${binding.moviesList.adapter?.itemCount}")
             //debug shows this as called, but not seeing it in the adapter
-            (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).setMovies(
-                movies
-            )
+            val count = binding.moviesList.adapter?.itemCount ?: 0
+            Log.d("DEBUG", "count $count")
+
+            Log.d("DEBUG", "movies.size ${movies.size}")
+            if(count > 0) {
+                val subArray = (movies.slice(count until movies.size))
+                if(subArray.isNotEmpty()) {
+                    (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).addMovies(
+                        subArray as ArrayList<Movie>
+                    )
+                }
+
+            } else {
+                (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).setMovies(
+                    movies
+                )
+            }
+
 //            (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).notifyDataSetChanged()
             Log.d("DEBUG", "initializeUI()  moviesViewModel.movies.observe() binding.moviesList.adapter.itemCount: ${binding.moviesList.adapter?.itemCount}")
+        })
+        moviesViewModel?.isLoading?.observe(viewLifecycleOwner, { isLoading ->
+            if(isLoading) {
+                binding.moviesLoadingPb.visibility = View.VISIBLE
+            } else {
+                binding.moviesLoadingPb.visibility = View.INVISIBLE
+            }
         })
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView, onClickListener: View.OnClickListener) {
         Log.d("DEBUG", "setupRecyclerView() ${recyclerView.id}")
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(
-            listOf(),
+            ArrayList<Movie>(),
             onClickListener
         )
+        var scrollListener: RecyclerView.OnScrollListener =
+            object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    if (moviesViewModel?.isLoading?.value == true) return
+                    val visibleItemCount: Int = recyclerView.layoutManager?.childCount ?: 0
+                    val totalItemCount: Int = recyclerView.layoutManager?.itemCount ?: 0
+                    val pastVisibleItems = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+                        //End of list
+                        moviesViewModel?.launchDataLoad()
+                    }
+                }
+            }
+        recyclerView.addOnScrollListener(scrollListener)
     }
 
     class SimpleItemRecyclerViewAdapter(
-        private var values: List<Movie?>,
+        private var values: ArrayList<Movie>,
         private var onClickListener: View.OnClickListener
     ) : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -166,8 +203,14 @@ class MoviesFragment : Fragment() {
             val imagePreviewView: ImageView = binding.imagePreview
         }
 
+        fun addMovies(movies: ArrayList<Movie>) {
+            val lastPositionOld = values.size
+            values.addAll(movies)
+            notifyItemRangeInserted(lastPositionOld, values.size)
+        }
+
         @SuppressLint("NotifyDataSetChanged")
-        fun setMovies(movies: List<Movie>) {
+        fun setMovies(movies: ArrayList<Movie>) {
             Log.d("DEBUG", "setMovies() input: $movies")
             Log.d("DEBUG", "setMovies() values before: $values")
             //this is called with correct movies input...

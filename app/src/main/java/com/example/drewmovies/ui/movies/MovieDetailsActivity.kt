@@ -19,6 +19,7 @@ import com.example.drewmovies.databinding.ActivityMovieDetailsBinding
 import com.example.drewmovies.ui.utils.RoundedCornersTransformation
 import com.example.drewmovies.utils.UrlBuilders
 import com.squareup.picasso.Picasso
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
 
@@ -107,6 +108,8 @@ class MovieDetailsActivity : AppCompatActivity() {
         binding.seeReviewsButton.setOnClickListener {
             this.showReviews()
         }
+        val localCurrencyFormatString = NumberFormat.getInstance().format(movieDetails.revenue);
+        binding.revenueTv.text = "$$localCurrencyFormatString"
     }
 
     fun showReviews() {

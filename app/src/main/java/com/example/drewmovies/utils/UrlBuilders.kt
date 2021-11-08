@@ -1,6 +1,7 @@
 package com.example.drewmovies.utils
 
 import android.net.Uri
+import android.util.Log
 import java.net.MalformedURLException
 import java.net.URL
 
@@ -26,7 +27,6 @@ object UrlBuilders {
     private const val PARAM_LANG = "language"
     private const val lang_en_us = "en-US"
     private const val PARAM_PAGE = "page"
-    private const val page_num = "1"
 
     private const val api_key = APIKeys.themoviedb_api_key
     private const val PARAM_API_KEY = "api_key"
@@ -47,6 +47,7 @@ object UrlBuilders {
         } catch (e: MalformedURLException) {
             e.printStackTrace()
         }
+        Log.d("DEBUG", "buildMovieDetailsRequestUrl() url: $url")
         return url
     }
 
@@ -107,11 +108,11 @@ object UrlBuilders {
      * Builds the URL to request list of movies in JSON format for popularity
      * ex: https://api.themoviedb.org/3/movie/popular?api_key=<<api_key>>&language=en-US&page=1
     </api_key> */
-    fun buildMovieListPopRequestUrl(): URL? {
+    fun buildMovieListPopRequestUrl(pageNum: Int = 1): URL? {
         val builtUri = Uri.parse(MOVIE_LIST_POP_BASE_URL).buildUpon()
             .appendQueryParameter(PARAM_API_KEY, api_key)
             .appendQueryParameter(PARAM_LANG, lang_en_us)
-            .appendQueryParameter(PARAM_PAGE, page_num)
+            .appendQueryParameter(PARAM_PAGE, pageNum.toString())
             .build()
         //        Log.d(TAG, "movie list url: " + builtUri.toString());
         var url: URL? = null
@@ -127,11 +128,11 @@ object UrlBuilders {
      * Builds the URL to request list of movies in JSON format based on rating
      * ex: https://api.themoviedb.org/3/movie/top_rated?api_key=<APIKEY>&language=en-US&page=1
     </APIKEY> */
-    fun buildMovieListRatedRequestUrl(): URL? {
+    fun buildMovieListRatedRequestUrl(pageNum: Int = 1): URL? {
         val builtUri = Uri.parse(MOVIE_LIST_RATE_BASE_URL).buildUpon()
             .appendQueryParameter(PARAM_API_KEY, api_key)
             .appendQueryParameter(PARAM_LANG, lang_en_us)
-            .appendQueryParameter(PARAM_PAGE, page_num)
+            .appendQueryParameter(PARAM_PAGE, pageNum.toString())
             .build()
         //        Log.d(TAG, "movie list url: " + builtUri.toString());
         var url: URL? = null

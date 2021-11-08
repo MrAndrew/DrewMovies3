@@ -56,6 +56,21 @@
                 android:textColor="@color/off_white_text_color"
                 />
 
+            <TextView
+                android:id="@+id/revenue_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/double_default_margin"
+                android:layout_marginEnd="@dimen/double_default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                app:layout_constraintTop_toBottomOf="@id/release_date_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="$1,000,000"
+                android:textSize="@dimen/default_text_size"
+                android:textColor="@color/off_white_text_color"
+                />
+
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/see_reviews_button"
                 android:layout_width="match_parent"
@@ -63,7 +78,7 @@
                 android:layout_marginStart="@dimen/double_default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/double_default_margin"
-                app:layout_constraintTop_toBottomOf="@id/release_date_tv"
+                app:layout_constraintTop_toBottomOf="@id/revenue_tv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:padding="@dimen/default_margin"

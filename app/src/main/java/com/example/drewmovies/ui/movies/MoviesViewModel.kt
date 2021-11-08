@@ -16,6 +16,8 @@ class MoviesViewModel : ViewModel() {
     var movies = MutableLiveData<ArrayList<Movie>>()
     var selectedMovie = MutableLiveData<Movie>()
     var selectedMovieDetails = MutableLiveData<MovieDetails>()
+    var isLoading = MutableLiveData<Boolean>(false)
+    var pagePaginationNumber = MutableLiveData<Int>(0)
 
     //for all coroutines started by this ViewModel
     private val viewModelJob = SupervisorJob() //supervisor job allows app not to crash if one network call fails
@@ -26,12 +28,20 @@ class MoviesViewModel : ViewModel() {
     fun launchDataLoad() {
         Log.d("DEBUG", "launchDataLoad()")
         uiScope.launch {
-            val url = UrlBuilders.buildMovieListPopRequestUrl()
-            Log.d("DEBUG", "Movies returned: $url")
+            isLoading.value = true
+            var numberCopy = pagePaginationNumber.value
+            numberCopy = numberCopy ?: 0
+            numberCopy++
+            pagePaginationNumber.value = numberCopy!!
+            val url = UrlBuilders.buildMovieListPopRequestUrl(numberCopy)
+            Log.d("DEBUG", "launchDataLoad() Movies url: $url")
             val moviesList = getPopularMovies(url.toString())
             // Modify UI
-            Log.d("DEBUG", "movies.value to be set: $moviesList")
-            movies.value = moviesList
+            Log.d("DEBUG", "launchDataLoad() movies.value to be set: $moviesList")
+//            val prevMovies = movies.value
+//            prevMovies?.addAll(moviesList)
+            movies.plusAssign(moviesList)
+            isLoading.value = false
         }
     }
 
@@ -49,26 +59,16 @@ class MoviesViewModel : ViewModel() {
 //        launchLoadMovieDetails(movie.id.toString())
     }
 
-//    fun launchLoadMovieDetails(id: String) {
-//        uiScope.launch {
-//            val movieDetails = getMovieDetails(id)
-//            // Modify UI
-//            Log.d("DEBUG", "movieDetails to be set: $movieDetails")
-//            selectedMovieDetails.value = movieDetails
-//        }
-//    }
-
-//    suspend fun getMovieDetails(id: String) = withContext(Dispatchers.Default) {
-//        Log.d("DEBUG", "getMovieDetails()")
-//        val detailsUrl =
-//            UrlBuilders.buildMovieDetailsRequestUrl(id)
-//        val movieDetails = detailsUrl?.let { APICallers.loadMovieDetailsFromUrl(it) }
-//        return@withContext movieDetails ?: MovieDetails()
-//    }
-
     //Cancel all coroutines when the ViewModel is cleared
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
     }
+
+    operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
+        val value = this.value ?: arrayListOf()
+        value.addAll(values)
+        this.value = value
+    }
+
 }

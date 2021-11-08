@@ -16,6 +16,7 @@ data class MovieDetails (
     var runtime: Int,
     var numOfVotes: Number,
     var voteAvg: Number,
+    var revenue: Number,
 )  {
-    constructor() : this(1, "", listOf(), listOf(), 0, "", "", listOf(), listOf(), Calendar.getInstance(),0, 0, 0)
+    constructor() : this(1, "", listOf(), listOf(), 0, "", "", listOf(), listOf(), Calendar.getInstance(),0, 0, 0, 0)
 }
