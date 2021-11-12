@@ -94,17 +94,21 @@ class MoviesFragment : Fragment() {
             Log.d("DEBUG", "initializeUI()  moviesViewModel.movies.observe() binding.moviesList.adapter.itemCount: ${binding.moviesList.adapter?.itemCount}")
             //debug shows this as called, but not seeing it in the adapter
             val count = binding.moviesList.adapter?.itemCount ?: 0
-            Log.d("DEBUG", "count $count")
-
-            Log.d("DEBUG", "movies.size ${movies.size}")
+            Log.d("DEBUG", "initializeUI() count $count")
+            Log.d("DEBUG", "initializeUI() count $count")
+            Log.d("DEBUG", "initializeUI() movies.size ${movies.size}")
             if(count > 0) {
                 val subArray = (movies.slice(count until movies.size))
                 if(subArray.isNotEmpty()) {
                     (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).addMovies(
                         subArray as ArrayList<Movie>
                     )
+                } else {
+                    //temporary fix b/c subarray is empty b/c binding.moviesList.adapter?.itemCount returns the new amount before adding them....
+//                    binding.moviesList.adapter?.notifyDataSetChanged()
+                    //todo fix this so not needed as it's hackish temporary workaround
+                    binding.moviesList.adapter?.notifyItemRangeInserted(movies.size-20, movies.size)
                 }
-
             } else {
                 (binding.moviesList.adapter as SimpleItemRecyclerViewAdapter).setMovies(
                     movies
@@ -136,8 +140,17 @@ class MoviesFragment : Fragment() {
                     val visibleItemCount: Int = recyclerView.layoutManager?.childCount ?: 0
                     val totalItemCount: Int = recyclerView.layoutManager?.itemCount ?: 0
                     val pastVisibleItems = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-                        //End of list
+//                    if (pastVisibleItems + visibleItemCount >= totalItemCount-2) {
+//                        //End of list
+//                        Log.d("DEBUG", "RecyclerView bottom reached.")
+//                        moviesViewModel?.launchDataLoad()
+//                    }
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if(!recyclerView.canScrollVertically(1)) {
+                        Toast.makeText(context, "Loading...", Toast.LENGTH_SHORT).show()
                         moviesViewModel?.launchDataLoad()
                     }
                 }
@@ -204,19 +217,24 @@ class MoviesFragment : Fragment() {
         }
 
         fun addMovies(movies: ArrayList<Movie>) {
+            Log.d("DEBUG", "addMovies() in movies: $movies")
+            Log.d("DEBUG", "addMovies() size before: ${values.size}")
             val lastPositionOld = values.size
             values.addAll(movies)
             notifyItemRangeInserted(lastPositionOld, values.size)
+            Log.d("DEBUG", "addMovies() size after: ${values.size}")
         }
 
         @SuppressLint("NotifyDataSetChanged")
         fun setMovies(movies: ArrayList<Movie>) {
             Log.d("DEBUG", "setMovies() input: $movies")
             Log.d("DEBUG", "setMovies() values before: $values")
+            Log.d("DEBUG", "setMovies() size before: ${values.size}")
             //this is called with correct movies input...
             values = movies
             notifyDataSetChanged()
             Log.d("DEBUG", "setMovies() values after: $values")
+            Log.d("DEBUG", "setMovies() size after: ${values.size}")
         }
 
     }

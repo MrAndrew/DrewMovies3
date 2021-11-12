@@ -33,6 +33,7 @@ class MoviesViewModel : ViewModel() {
             numberCopy = numberCopy ?: 0
             numberCopy++
             pagePaginationNumber.value = numberCopy!!
+            Log.d("DEBUG", "launchDataLoad() numberCopy: $numberCopy")
             val url = UrlBuilders.buildMovieListPopRequestUrl(numberCopy)
             Log.d("DEBUG", "launchDataLoad() Movies url: $url")
             val moviesList = getPopularMovies(url.toString())
@@ -66,9 +67,11 @@ class MoviesViewModel : ViewModel() {
     }
 
     operator fun <T> MutableLiveData<ArrayList<T>>.plusAssign(values: List<T>) {
+        Log.d("DEBUG", "movies plus assign called")
         val value = this.value ?: arrayListOf()
         value.addAll(values)
         this.value = value
+        Log.d("DEBUG", "movies plus assign this.value.size  ${this.value?.size}")
     }
 
 }
